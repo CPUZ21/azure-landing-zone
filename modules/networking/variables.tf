@@ -18,9 +18,3 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "subscription_id" {
-  description = "Azure subscription ID for budget scoping and Cost Management queries"
-  type        = string
-  sensitive   = true
-}

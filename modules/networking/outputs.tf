@@ -17,3 +17,8 @@ output "management_subnet_id" {
   description = "Resource ID of the management subnet"
   value       = azurerm_subnet.management.id
 }
+
+output "resource_group_name" {
+  description = "Name of the resource group"
+  value       = var.resource_group_name
+}
