@@ -14,16 +14,6 @@ output "log_analytics_workspace_key" {
   sensitive   = true
 }
 
-output "function_app_hostname" {
-  description = "Default hostname of the cost report Function App"
-  value       = azurerm_linux_function_app.cost_report.default_hostname
-}
-
-output "function_app_identity_principal_id" {
-  description = "Managed identity principal ID of the Function App"
-  value       = azurerm_linux_function_app.cost_report.identity[0].principal_id
-}
-
 output "logic_app_id" {
   description = "Resource ID of the Logic App workflow"
   value       = azurerm_logic_app_workflow.cost_report.id

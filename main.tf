@@ -31,6 +31,6 @@ module "cost_management" {
   subscription_id     = var.subscription_id
   alert_email         = "alerts@example.com"
   budget_amount       = 100
-  budget_start_date   = "2025-01-01"
+  budget_start_date   = "var.budget_start_date"
   tags                = var.tags
 }

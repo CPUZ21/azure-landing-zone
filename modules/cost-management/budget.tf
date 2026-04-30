@@ -6,7 +6,7 @@ resource "azurerm_consumption_budget_subscription" "main" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = "${var.budget_start_date}T00:00:00Z"
+    start_date = "2026-04-01T00:00:00Z"
   }
 
   notification {

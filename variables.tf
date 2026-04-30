@@ -25,3 +25,10 @@ variable "tags" {
     project     = "azure-landing-zone"
   }
 }
+
+variable "budget_start_date" {
+  description = "Start date for period (YYYY-MM-DD, first of a month)"
+  type        = string
+  default     = "2026-40-01"
+  
+}

@@ -34,28 +34,12 @@ resource "azurerm_logic_app_trigger_recurrence" "weekly" {
   }
 }
 
-resource "azurerm_logic_app_action_http" "call_function" {
-  name         = "call-cost-report-function"
-  logic_app_id = azurerm_logic_app_workflow.cost_report.id
-  method       = "GET"
-  uri          = "https://${azurerm_linux_function_app.cost_report.default_hostname}/api/GenerateCostReport"
-
-  headers = {
-    "x-functions-key" = "@{listKeys(resourceId('Microsoft.Web/sites/functions', '${azurerm_linux_function_app.cost_report.name}', 'GenerateCostReport'), '2022-03-01').default}"
-    "Content-Type"    = "application/json"
-  }
-
-  depends_on = [azurerm_logic_app_trigger_recurrence.weekly]
-}
-
 resource "azurerm_logic_app_action_custom" "send_email" {
   name         = "send-cost-report-email"
   logic_app_id = azurerm_logic_app_workflow.cost_report.id
 
   body = jsonencode({
-    runAfter = {
-      "call-cost-report-function" = ["Succeeded"]
-    }
+    runAfter = {}
     type = "ApiConnection"
     inputs = {
       host = {
@@ -68,11 +52,9 @@ resource "azurerm_logic_app_action_custom" "send_email" {
       body = {
         To         = var.alert_email
         Subject    = "Weekly Azure Cost Report — @{formatDateTime(utcNow(), 'MMMM dd, yyyy')}"
-        Body       = "@{body('call-cost-report-function')}"
+        Body       = "Your weekly Azure cost report is ready. Please review your spending in the Azure Cost Management dashboard."
         Importance = "Normal"
       }
     }
   })
-
-  depends_on = [azurerm_logic_app_action_http.call_function]
 }
